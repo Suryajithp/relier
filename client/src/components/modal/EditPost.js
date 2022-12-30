@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { CgClose } from 'react-icons/cg';
 import { EditContext } from '../../utilitis/Context';
-import axios from 'axios';
+import axios from '../../AxiosInstance'; 
 import { useNavigate } from 'react-router-dom';
 
 const EditPost = ({ postid }) => {
@@ -12,7 +12,7 @@ const EditPost = ({ postid }) => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        axios.get('http://localhost:4000/getpost/' + postid, {
+        axios.get('/getpost/' + postid, {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },
@@ -35,7 +35,7 @@ const EditPost = ({ postid }) => {
     }
 
     const submit = (e) => {
-        axios.post("http://localhost:4000/editpost", formData, {
+        axios.post("/editpost", formData, {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },

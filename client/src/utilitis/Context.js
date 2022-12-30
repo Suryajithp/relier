@@ -5,6 +5,7 @@ export const EditContext = createContext(null)
 export const CommentContext = createContext(null)
 export const SearchContext = createContext(null)
 export const FollowContext = createContext(null)
+export const ChatContext = createContext(null)
 export const UserContext = createContext(null)
 export const friendContext = createContext(null)
 
@@ -82,6 +83,16 @@ export const Friend = ({children}) =>{
         <friendContext.Provider value={{friend,setFriend}}>
         {children}
         </friendContext.Provider>
+   )
+}
+
+export const ChatView = ({children}) =>{
+    const [chat,setChat]= useState('')
+    
+    return(
+        <ChatContext.Provider value={{chat,setChat}}>
+        {children}
+        </ChatContext.Provider>
    )
 }
 

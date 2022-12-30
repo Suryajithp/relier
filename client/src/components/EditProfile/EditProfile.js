@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../AxiosInstance'; 
 import { useContext, useEffect, useState } from 'react';
 import { MdOutlineAddAPhoto } from 'react-icons/md';
 import { useForm } from 'react-hook-form';
@@ -22,7 +22,7 @@ const EditProfile = () => {
     } = useForm();
 
     const userDetails = () => {
-        axios.get("http://localhost:4000/editProfile/" + usermodal.id, {
+        axios.get("/editProfile/" + usermodal.id, {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },
@@ -53,7 +53,7 @@ const EditProfile = () => {
         }
         const { email, username } = e
         if (email && username) {
-            axios.post("http://localhost:4000/editProfile", Data, {
+            axios.put("/editProfile", Data, {
                 headers: {
                     "x-access-token": localStorage.getItem("user"),
                 },

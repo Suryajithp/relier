@@ -29,9 +29,19 @@ io.on("connection", (socket) => {
 
     socket.on("sendNotification", ({ senderName, receiverName,postId,type }) => {
         const receiver = getUser(receiverName)
+        console.log();
         io.to(receiver?.socketId).emit("getNotification", {
             senderName,
             postId,
+            type
+        })
+    })
+
+    socket.on("sendMessageNotification", ({ senderName, receiverName,type }) => {
+        const receiver = getUser(receiverName)
+        console.log();
+        io.to(receiver?.socketId).emit("getMessageNotification", {
+            senderName,
             type
         })
     })

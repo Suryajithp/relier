@@ -5,7 +5,7 @@ import Sidebar from '../../components/Admin/sidebar/sidebar'
 const PostManage = () => {
   return (
     <div>
-        <Sidebar>
+      <Sidebar>
       <Post/>
       </Sidebar>
     </div>

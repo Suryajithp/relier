@@ -1,6 +1,7 @@
-import axios from 'axios';
+import axios from '../../AxiosInstance'; 
 import { useContext, useEffect, useState } from 'react'
 import { CgClose } from 'react-icons/cg';
+import { MdDelete } from 'react-icons/md';
 import Profilepic from '../../assets/images.jpg'
 import { format } from 'timeago.js';
 import { CommentContext, UserContext } from '../../utilitis/Context';
@@ -27,7 +28,7 @@ const Comment_modal = ({ userdata, socket, user }) => {
     } = useForm();
 
     const commentUp = (e) => {
-        axios.get("http://localhost:4000/getpost/" + e, {
+        axios.get("/getpost/" + e, {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },
@@ -36,7 +37,7 @@ const Comment_modal = ({ userdata, socket, user }) => {
         }).catch((error) => {
             navigate('/error')
         })
-        axios.get("http://localhost:4000/getComments/" + e, {
+        axios.get("/getComments/" + e, {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },
@@ -61,7 +62,7 @@ const Comment_modal = ({ userdata, socket, user }) => {
         const comments = { comment, userId, postId }
         if (comment) {
 
-            axios.post("http://localhost:4000/comment", comments, {
+            axios.post("/comment", comments, {
                 headers: {
                     "x-access-token": localStorage.getItem("user"),
                 },
@@ -75,7 +76,7 @@ const Comment_modal = ({ userdata, socket, user }) => {
 
                 const receiverId= post
         const notificationData = { userId, postId,receiverId ,type }
-          const response = await axios.post("http://localhost:4000/notification", notificationData, {
+          const response = await axios.post("/notification", notificationData, {
                 headers: {
                     "x-access-token": localStorage.getItem("user"),
                 },
@@ -92,6 +93,17 @@ const Comment_modal = ({ userdata, socket, user }) => {
     }
     const toggleModal = () => {
         setShowCommentmodal(!showCommentmodal)
+    }
+
+    const deleteComment=(commentId, postId)=>{
+       const  data = {commentId,postId }
+        axios.put("/deletecomment", data , {
+            headers: {
+                "x-access-token": localStorage.getItem("user"),
+            },
+        }).then(()=>{
+            setValue(!value)
+        }).catch(()=> navigate('/error'))
     }
     return (
         <div class="bg-slate-800 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0">
@@ -122,7 +134,10 @@ const Comment_modal = ({ userdata, socket, user }) => {
                                         </div>
                                         <div className='mx-8 rounded-md bg-gray-100'>
                                             <div className=' p-2 rounded-md bg-gray-100 my-auto text-left text-sm text-gray-900 w-auto '>{item.message}</div>
-
+                                            {
+                                                item.userID===usermodal.id &&
+                                            <MdDelete className='ml-auto text-gray-400' onClick={e=>deleteComment(item.commentId,item._id)}/>
+                                            }
                                             <div className="m-2 text-xs text-gray-500 font-mono text-end"> {format(item.time)}</div>
                                         </div>
                                     </div>

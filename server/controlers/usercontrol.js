@@ -406,6 +406,7 @@ module.exports = {
                     message: '$comment.message',
                     post: 1,
                     _id: 1,
+                    commentId:'$comment._id',
                     discription: 1,
                     time: '$comment.time',
                     userID: '$comment.userId'
@@ -426,6 +427,7 @@ module.exports = {
                     message: 1,
                     post: 1,
                     _id: 1,
+                    commentId:1,
                     discription: 1,
                     time: 1,
                     userID: 1,
@@ -435,6 +437,15 @@ module.exports = {
             },
 
         ]).sort({ time: -1 }).then((response) => {
+            res.status(200).json(response)
+        }).catch((error) => res.status(401).json(error))
+    },
+
+    deleteComments:(req,res) =>{
+        const {commentId,postId} = req.body
+        commentModel.findOneAndUpdate({postId:postId},{
+            $pull:{comments:{_id:commentId}}
+        }).then((response)=>{
             res.status(200).json(response)
         }).catch((error) => res.status(401).json(error))
     },

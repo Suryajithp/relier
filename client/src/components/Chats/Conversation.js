@@ -1,7 +1,7 @@
 import Profilepic from '../../assets/images.jpg'
 import { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../utilitis/Context'
-import axios from 'axios'
+import axios from '../../AxiosInstance'; 
 import { useNavigate } from 'react-router-dom'
 
 const Conversation = ({ conversation }) => {
@@ -18,7 +18,7 @@ const Conversation = ({ conversation }) => {
 
         const getUser = async () => {
             try {
-                const res = await axios('http://localhost:4000/getuserpost/' + friendId,{
+                const res = await axios.get('/getuserpost/' + friendId,{
                     headers: {
                       "x-access-token": localStorage.getItem("user"),
                     },

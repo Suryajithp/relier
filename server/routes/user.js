@@ -32,6 +32,8 @@ router.get('/getpost/:id', verifyJWT,userController.getPost)
 
 router.get('/getComments/:id',verifyJWT, userController.getComments)
 
+router.put('/deletecomment',verifyJWT, userController.deleteComments)
+
 router.get('/getsearch/:id',verifyJWT, userController.getSearch)
 
 router.post('/like', verifyJWT,userController.doLike)
@@ -46,7 +48,7 @@ router.post('/deletepost',verifyJWT, userController.deletePost)
 
 router.get('/editProfile/:id',verifyJWT, userController.getUser)
 
-router.post('/editProfile',verifyJWT,upload.single('profile'), userController.EditUser)
+router.put('/editProfile',verifyJWT,upload.single('profile'), userController.EditUser)
 
 router.post('/follow', verifyJWT,userController.doFollow)
 

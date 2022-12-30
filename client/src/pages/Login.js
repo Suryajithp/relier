@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form"
 import loginImg from '../assets/login.jpeg';
-import axios from 'axios'
+import axios from '../AxiosInstance'; 
 import { useEffect, useState } from 'react'
 
 
@@ -19,7 +19,7 @@ const Login = () => {
   } = useForm();
 
   const userAuthenticeted = () => {
-    axios.get("http://localhost:4000/isUserAuth", {
+    axios.get("/isUserAuth", {
       headers: {
         "x-access-token": localStorage.getItem("user"),
       },
@@ -39,7 +39,7 @@ const Login = () => {
   const Submit = (e) => {
     const { email, password } = e
     if (email && password) {
-      axios.post("http://localhost:4000/", e)
+      axios.post("/", e)
         .then((response) => {
           localStorage.setItem('user', response.data.token)
           navigate('/home')

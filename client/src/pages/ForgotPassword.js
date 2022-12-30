@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../AxiosInstance'; 
 import { useForm } from 'react-hook-form';
 import forgotImg from '../assets/forgot.jpeg';
 import { Link, useNavigate } from 'react-router-dom';
@@ -21,7 +21,7 @@ const ForgotPassword = () => {
     const Submit = (e) => {
         const { email } = e
         if (email) {
-            axios.post("http://localhost:4000/otpgenerate", e)
+            axios.post("/otpgenerate", e)
                 .then((response) => {
                       navigate('/changepassword')
                 }).catch((error) => {

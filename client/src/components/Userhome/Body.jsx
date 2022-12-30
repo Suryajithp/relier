@@ -4,7 +4,8 @@ import { BsThreeDots } from 'react-icons/bs';
 import { AiOutlineDoubleRight } from 'react-icons/ai';
 import { useContext, useEffect, useState } from 'react';
 import { format } from 'timeago.js';
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../../AxiosInstance'; 
 import { CommentContext, EditContext, friendContext, UserContext } from '../../utilitis/Context';
 import Comment_modal from '../modal/Comment_modal';
 import EditPost from '../modal/EditPost';
@@ -27,7 +28,7 @@ const Body = ({ socket, user }) => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        axios.get("http://localhost:4000/getallpost", {
+        axios.get("/getallpost", {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },
@@ -49,7 +50,7 @@ const Body = ({ socket, user }) => {
         const postId = post._id
         const type = 1
         const likeData = { userId, postId }
-        axios.post("http://localhost:4000/like", likeData, {
+        axios.post("/like", likeData, {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },
@@ -63,7 +64,7 @@ const Body = ({ socket, user }) => {
             })
             const receiverId = post.id
             const notificationData = { userId, postId, receiverId, type }
-            const response = await axios.post("http://localhost:4000/notification", notificationData, {
+            const response = await axios.post("/notification", notificationData, {
                 headers: {
                     "x-access-token": localStorage.getItem("user"),
                 },
@@ -77,7 +78,7 @@ const Body = ({ socket, user }) => {
     const unlike = (postId) => {
         const userId = usermodal.id
         const likeData = { userId, postId }
-        axios.post("http://localhost:4000/like", likeData, {
+        axios.post("/like", likeData, {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },
@@ -97,7 +98,7 @@ const Body = ({ socket, user }) => {
         const userId = usermodal.id
         const postId = dropdown.data._id
         const reportData = { userId, postId, message }
-        axios.post("http://localhost:4000/report", reportData, {
+        axios.post("/report", reportData, {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },
@@ -112,7 +113,7 @@ const Body = ({ socket, user }) => {
 
     const deletePost = (postId) => {
         const id = { postId }
-        axios.post("http://localhost:4000/deletepost", id, {
+        axios.post("/deletepost", id, {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },
@@ -143,7 +144,7 @@ const Body = ({ socket, user }) => {
 
         if (userId) {
 
-            axios.get("http://localhost:4000/getsuggestion/" + userId, {
+            axios.get("/getsuggestion/" + userId, {
                 headers: {
                     "x-access-token": localStorage.getItem("user"),
                 },

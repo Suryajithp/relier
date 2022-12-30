@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../AxiosInstance'; 
 import React, { useEffect } from 'react'
 import Profilepic from '../../assets/images.jpg'
 import { useState } from 'react';
@@ -20,7 +20,7 @@ const Notification = ({ usersData }) => {
             setAction("comment on")
         }
 
-        axios.get("http://localhost:4000/editProfile/" + userId, {
+        axios.get("/editProfile/" + userId, {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },

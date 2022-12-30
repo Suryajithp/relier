@@ -1,7 +1,7 @@
 import Profilepic from '../../assets/images.jpg'
 import coverImg from '../../assets/kristina-tripkovic-8Zs5H6CnYJo-unsplash.jpg'
 import { useContext, useEffect, useState } from 'react'
-import axios from 'axios';
+import axios from '../../AxiosInstance'; 
 import { CommentContext, FollowContext, UserContext } from '../../utilitis/Context';
 import { useNavigate } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
@@ -27,7 +27,7 @@ const Profile = () => {
 
     const token = localStorage.getItem('user')
     let decoded = jwt_decode(token)
-    axios.get("http://localhost:4000/getuserpost/" + decoded.id,{
+    axios.get("/getuserpost/" + decoded.id,{
       headers: {
         "x-access-token": localStorage.getItem("user"),
       },
@@ -37,7 +37,7 @@ const Profile = () => {
       }).catch((error) => {
         navigate('/error')
       })
-    axios.get("http://localhost:4000/checkfollow/" + decoded.id,{
+    axios.get("/checkfollow/" + decoded.id,{
       headers: {
         "x-access-token": localStorage.getItem("user"),
       },

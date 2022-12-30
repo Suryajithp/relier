@@ -1,19 +1,17 @@
-import axios from 'axios'
+import axios from '../AxiosInstance'; 
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Body from '../components/Userhome/Body'
-import { io } from 'socket.io-client';
 import Navbar from '../components/Header/Navbar'
 import { UserContext } from '../utilitis/Context';
 
-const Home = () => {
+const Home = ({socket}) => {
 
-  const [socket, setSocket] = useState(null)
   const { usermodal, setusermodal } = useContext(UserContext)
 
   const navigate = useNavigate()
   const userAuthenticeted = () => {
-    axios.get("http://localhost:4000/isUserAuth", {
+    axios.get("/isUserAuth", {
       headers: {
         "x-access-token": localStorage.getItem("user"),
       },
@@ -26,10 +24,6 @@ const Home = () => {
 
   useEffect(() => {
     userAuthenticeted()
-  }, [])
-
-  useEffect(() => {
-    setSocket(io("http://localhost:5000"))
   }, [])
 
   useEffect(() => {

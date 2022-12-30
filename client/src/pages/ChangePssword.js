@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../AxiosInstance'; 
 import forgotImg from '../assets/forgot.jpeg';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
@@ -21,7 +21,7 @@ const ChangePssword = () => {
     const Submit = (e) => {
         const { otp } = e
         if (otp) {
-            axios.post("http://localhost:4000/changepassword", e)
+            axios.post("/changepassword", e)
                 .then((response) => {
                       navigate('/')
                 }).catch((error) => {

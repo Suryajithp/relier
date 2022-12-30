@@ -20,13 +20,13 @@ module.exports={
 
     getConversations:async (req,res)=>{
         try {
+            const item ={updatedAt:-1}
             const conversation = await Conversation.find({
                 members:{ $in:[req.params.userId]},
-            })
+            }).sort(item)
             res.status(200).json(conversation)
         } catch (error) {
             res.status(500).json(error)
-            
         }
     },
 

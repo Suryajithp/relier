@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from '../AxiosInstance'; 
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form"
 import signupImg from '../assets/signup.jpeg'
@@ -16,11 +16,11 @@ const Signup = () => {
     } = useForm();
     
     const userAuthenticeted = () => {
-        axios.get("http://localhost:4000/isUserAuth", {
-          headers: {
-            "x-access-token": localStorage.getItem("user"),
-          },
-        }).then((response) => {
+        axios.get("/isUserAuth",{
+            headers: {
+              "x-access-token": localStorage.getItem("user"),
+            },
+          }).then((response) => {
           if (response.data.auth==true) {
             navigate('/home')
           }
@@ -36,7 +36,7 @@ const Signup = () => {
 const Submit =(e)=>{
     const { username, email,password } = e
    if(username && email && password){
-    axios.post("http://localhost:4000/signup",e)
+    axios.post("/signup",e)
     .then((response)=>{
         if(response){navigate('/')}
     }).catch((error)=>{

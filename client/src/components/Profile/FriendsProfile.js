@@ -1,8 +1,8 @@
 import Profilepic from '../../assets/images.jpg'
 import coverImg from '../../assets/kristina-tripkovic-8Zs5H6CnYJo-unsplash.jpg'
 import { useContext, useEffect, useState } from 'react'
-import axios from 'axios';
-import { CommentContext, FollowContext, friendContext, UserContext } from '../../utilitis/Context';
+import axios from '../../AxiosInstance';
+import { ChatContext, CommentContext, FollowContext, friendContext, UserContext } from '../../utilitis/Context';
 import { useNavigate } from 'react-router-dom';
 import Comment_modal from '../modal/Comment_modal';
 import { FaHeart } from 'react-icons/fa';
@@ -14,6 +14,7 @@ const Profile = () => {
     const { usermodal, setusermodal } = useContext(UserContext)
     const { followmodal, setFollowmodal } = useContext(FollowContext)
     const { showCommentmodal, setShowCommentmodal } = useContext(CommentContext)
+    const { chat, setChat } = useContext(ChatContext)
 
 
     const [data, setData] = useState([]);
@@ -22,7 +23,7 @@ const Profile = () => {
     const [value, setvalue] = useState(true);
     const [status, setStatus] = useState(true);
     const [userdata, setUserData] = useState('');
-    
+
 
     const navigate = useNavigate()
 
@@ -31,7 +32,7 @@ const Profile = () => {
         if (!friend) {
             navigate('/home')
         } else {
-            axios.get("http://localhost:4000/getuserpost/" + friend,{
+            axios.get("/getuserpost/" + friend,{
                 headers: {
                   "x-access-token": localStorage.getItem("user"),
                 },
@@ -42,7 +43,7 @@ const Profile = () => {
                     navigate('/error')
                 })
             const friendId = friend
-            axios.get("http://localhost:4000/checkfollow/" + friendId,{
+            axios.get("/checkfollow/" + friendId,{
                 headers: {
                   "x-access-token": localStorage.getItem("user"),
                 },
@@ -65,7 +66,7 @@ const Profile = () => {
         const followData = {
             friendId, userId
         }
-        axios.post("http://localhost:4000/follow", followData,{
+        axios.post("/follow", followData,{
             headers: {
               "x-access-token": localStorage.getItem("user"),
             },
@@ -91,27 +92,32 @@ const Profile = () => {
         setFollowmodal(true)
     }
 
-    const message= async ()=>{
-       const receiverId=data[0]?.id
-       const senderId=usermodal.id
-       const details ={senderId,receiverId}
-        axios.post("http://localhost:4000/conversations/check", details).then(async(res) => {
-            if(!res.data.length>0){
-            const messageId = await  axios.post("http://localhost:4000/conversations",details,{
-                headers: {
-                  "x-access-token": localStorage.getItem("user"),
-                },
-              })
-            if(messageId){
+    const message = async () => {
+        const receiverId = data[0]?.id
+        const senderId = usermodal.id
+        const details = { senderId, receiverId }
+        axios.post("/conversations/check", details,{
+            headers: {
+              "x-access-token": localStorage.getItem("user"),
+            },
+          }).then(async (res) => {
+            if (!res.data.length > 0) {
+                const messageId = await axios.post("/conversations", details)
+                if (messageId) {
+                    const data = messageId.data 
+                    setChat([data])
+                }
+            }else{
+                setChat(res.data)
             }
-            }
-                navigate('/chat')
+            
+            navigate('/chat')
         }).catch((error) => {
             navigate('/error')
         })
     }
 
-    const ckeck = (data)=>{
+    const ckeck = (data) => {
         return data._id === usermodal.id
     }
 
@@ -128,11 +134,11 @@ const Profile = () => {
                 }
                 <div className='w-full mt-[-2%] flex justify-between md:justify-end'>
                     <button className=' w-fit h-full md:mr-3 px-3 py-1 rounded hover:bg-blue-400 hover:text-white border text-right text-base my-auto text-blue-400 font-mono'
-                    onClick={message}>message</button>
+                        onClick={message}>message</button>
                     {
                         followdata[0]?.followers.some(ckeck) ?
-                    <button className='w-fit h-full px-2 py-1  bg-white rounded text-gray-500 font-semibold text-center border-gray-300 border' onClick={Follow}>Unfollow</button>
-                    : <button className='w-fit h-full px-4 py-1 bg-blue-400 rounded hover:bg-blue-500 font-semibold text-white text-center border-gray-300 border' onClick={Follow}>Follow</button>
+                            <button className='w-fit h-full px-2 py-1  bg-white rounded text-gray-500 font-semibold text-center border-gray-300 border' onClick={Follow}>Unfollow</button>
+                            : <button className='w-fit h-full px-4 py-1 bg-blue-400 rounded hover:bg-blue-500 font-semibold text-white text-center border-gray-300 border' onClick={Follow}>Follow</button>
                     }
 
                 </div>

@@ -1,7 +1,5 @@
-import axios from 'axios'
+import axios from '../../AxiosInstance'; 
 import React, { useEffect, useReducer, useState } from 'react'
-// import { FaTimes } from 'react-icons/fa'
-// import { useNavigate } from 'react-router-dom';
 
 const Usertable = () => {
     const [data, setData] = useState([])
@@ -11,7 +9,7 @@ const Usertable = () => {
 
 
     useEffect(() => {
-        axios.get("http://localhost:4000/admin/userlist").then((response) => {
+        axios.get("/admin/userlist").then((response) => {
             setData(response.data.userData)
         })
     }, [reducerValue])
@@ -30,7 +28,7 @@ const Usertable = () => {
 
 
     const changeStatus = (e, id) => {
-        axios.post("http://localhost:4000/admin/changestatus/" + id)
+        axios.post("/admin/changestatus/" + id)
             .then((res => {
                 forceUpdate()
             }))

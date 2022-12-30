@@ -3,7 +3,7 @@ import { CgClose } from 'react-icons/cg';
 import { BiImageAdd } from 'react-icons/bi';
 import { ModalContext } from '../../utilitis/Context';
 import jwt_decode from "jwt-decode";
-import axios from 'axios';
+import axios from '../../AxiosInstance'; 
 import { useNavigate } from 'react-router-dom';
 
 
@@ -11,6 +11,7 @@ const AddpostModal = () => {
     const { showmodal, setShowmodal } = useContext(ModalContext)
     const [formData, setFormData] = useState({ image: '', discription: ' ' })
     const [showimage, setshowImage] = useState('')
+    const [error, setError] = useState(false)
 
   const navigate = useNavigate()
 
@@ -44,15 +45,17 @@ const AddpostModal = () => {
         Data.append('user', decoded.id)
         const { image, discription } = formData
         if (image || discription) {
-            axios.post("http://localhost:4000/addpost", Data,{
+            axios.post("/addpost", Data,{
                 headers: {
                   "x-access-token": localStorage.getItem("user"),
                 },
               })
                 .then((response) => {
                     setShowmodal(!showmodal)
-                }).catch((error) => {
-                    navigate('/error')
+                }).catch((err) => {
+                    // navigate('/error')
+                    console.log('helooooooooooooooooooo');
+                    setError(!error)
                 })
         } else {
             setShowmodal(!showmodal)
@@ -90,6 +93,9 @@ const AddpostModal = () => {
                                 <textarea type='text' className="p-2 h-full w-full text-base font-serif focus:outline-none"
                                     placeholder='Write your discription' name='discription' onChange={handleChange} />
                             </div>
+                            {
+                                error && <h1 className='text-red-500'>Add a valid image </h1>
+                            }
                             <button className='p-1 mt-10 rounded-md bg-blue-400 text-white text-base font-mono' onClick={submit}>Submit</button>
                         </div>
                     </div>
