@@ -82,7 +82,7 @@ module.exports = {
                 res.status(401).json({ msg: "Email or password incorrect" })
             }
         } catch (error) {
-            console.log(error.message);
+            console.log(error);
             res.status(500).json(error)
         }
 
