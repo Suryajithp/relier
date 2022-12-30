@@ -61,6 +61,7 @@ module.exports = {
     Login: async (req, res) => {
         try {
             const { email, password } = req.body;
+            console.log(req.body);
             const userExist = await userModel.findOne({ email: email })
             if (userExist && (await bcrypt.compare(password, userExist.password))) {
                 const id = userExist._id
