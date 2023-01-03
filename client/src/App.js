@@ -17,8 +17,7 @@ import Notfound from './pages/Notfound';
 import ErrorPage from './pages/ErrorPage';
 import PostManage from './pages/admin/PostManage';
 import { useEffect, useState } from 'react';
-
-const socket = require('socket.io-client')('ws://localhost:8900')
+const socket = require('socket.io-client')('http://relier.tk',{path:"/socket/socket.io"})
 function App() {
 
   const [sockettwo, setSockettwo] = useState(null)
@@ -31,7 +30,7 @@ function App() {
 
 
   useEffect(() => {
-    setSockettwo(io("http://localhost:5000"))
+    setSockettwo(io('http://relier.tk',{path:"/socket2/socket.io"}))
   }, [])
   return (
     <Router>
