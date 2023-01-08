@@ -1,9 +1,11 @@
-const io = require('socket.io')(5000, {
-    path: "/socket2/socket.io",
+import { Server } from "socket.io";
+
+const io = new Server({
     cors: {
-        origin: "http://relier.tk",
-    },
-})
+        origin: "http://localhost:3000"
+    }
+});
+
 
 let onlineUsers = [];
 

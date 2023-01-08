@@ -294,7 +294,7 @@ const Body = ({ socket, user }) => {
                                         <hr className='m-1' />
                                         <div className="p-2 pt-0 my-auto text-md font-sans">{item.discription}</div>
                                         <div className="mx-2 bg-slate-200">
-                                            <img alt='#' src={`/images/${item.post}`} className="h-auto max-h-[560px] object-cover w-auto mx-auto" />
+                                            <img alt='#' src={`http://localhost:4000/images/${item.post}`} className="h-auto max-h-[560px] object-cover w-auto mx-auto" />
                                         </div>
                                         <div className=" w-full h-12 pb-2 flex " >
                                             {item.like.includes(usermodal.id) ? <FaHeart onClick={(e) => { unlike(item._id) }} className=" m-3 mr-0 h-5  w-5 my-auto " color='red' /> : <FaHeart onClick={(e) => { like(item) }} className=" m-3 mr-0 h-5  w-5 my-auto " color='gray' />}<h1 className='my-auto mx-2'>{item.like.length}</h1>
