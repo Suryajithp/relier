@@ -47,7 +47,7 @@ const Post = () => {
         <div>
             <div className='flex   justify-center items-center h-screen my-auto'>
                 <div className="w-8/12 border rounded-lg shadow-md p-5  ">
-                    <h1 className='text-lg font-bold text-teal-400'>User details</h1>
+                    <h1 className='text-lg font-bold text-teal-400'>Post Manage</h1>
                     <div className="bg-white mt-7 shadow-md rounded overflow-x-auto ">
                         <table class="text-left w-full border-collapse ">
 

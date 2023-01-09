@@ -1,6 +1,7 @@
 const io = require('socket.io')(5000,{
+    path: "/socketnotification/socket.io",
     cors:{
-        origin:"http://localhost:3000",
+        origin:"http://relier.tk",
     },
 })
 

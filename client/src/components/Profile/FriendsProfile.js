@@ -110,7 +110,8 @@ const Profile = () => {
             }else{
                 setChat(res.data)
             }
-                navigate('/chat')
+            
+            navigate('/chat')
         }).catch((error) => {
             navigate('/error')
         })

@@ -26,8 +26,7 @@ module.exports={
             }).sort(item)
             res.status(200).json(conversation)
         } catch (error) {
-            res.status(500).json(error)
-            
+            res.status(500).json(error) 
         }
     },
 

@@ -4,6 +4,9 @@ const ConversationShema =new mongoose.Schema(
     {
         members:{
             type: Array
+        },
+        lastMessage:{
+            type:mongoose.Types.ObjectId,
         }
     },
     {timestamps:true}

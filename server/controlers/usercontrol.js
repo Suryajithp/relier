@@ -27,31 +27,36 @@ module.exports = {
     },
 
     Signup: async (req, res) => {
-        const { username, email, password } = req.body;
-        const userExist = await userModel.findOne({ email: email })
-        if (userExist) {
-            res.status(401).json({ msg: "exist" })
-        } else {
-            const salt = await bcrypt.genSalt(10)
-            const hashedpassword = await bcrypt.hash(password, salt)
-
-            const user = new userModel({
-                username: username,
-                email: email,
-                password: hashedpassword
-            })
-
-            if (user) {
-                user.save()
-                res.status(201).json({
-                    _id: user.id,
-                    name: user.name,
-                    email: user.email
-                })
+        try {
+            console.log(req.body);
+            const { username, email, password } = req.body;
+            const userExist = await userModel.findOne({ email: email })
+            if (userExist) {
+                res.status(401).json({ msg: "exist" })
             } else {
-                res.status(400)
-                throw new Error('Invalid user data')
+                const salt = await bcrypt.genSalt(10)
+                const hashedpassword = await bcrypt.hash(password, salt)
+    
+                const user = new userModel({
+                    username: username,
+                    email: email,
+                    password: hashedpassword
+                })
+    
+                if (user) {
+                    user.save()
+                    res.status(201).json({
+                        _id: user.id,
+                        name: user.name,
+                        email: user.email
+                    })
+                } else {
+                    res.status(400)
+                    throw new Error('Invalid user data')
+                }
             }
+        } catch (error) {
+            console.log(error);
         }
 
 
@@ -448,6 +453,16 @@ module.exports = {
         })
 
     },
+
+    deleteComments:(req,res) =>{
+        const {commentId,postId} = req.body
+        commentModel.findOneAndUpdate({postId:postId},{
+            $pull:{comments:{_id:commentId}}
+        }).then((response)=>{
+            res.status(200).json(response)
+        }).catch((error) => res.status(401).json(error))
+    },
+
     doLike: async (req, res) => {
         try {
             const { userId, postId } = req.body

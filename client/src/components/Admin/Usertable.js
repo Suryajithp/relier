@@ -1,7 +1,5 @@
 import axios from '../../Axios/AxiosInstance';
 import React, { useEffect, useReducer, useState } from 'react'
-// import { FaTimes } from 'react-icons/fa'
-// import { useNavigate } from 'react-router-dom';
 
 const Usertable = () => {
     const [data, setData] = useState([])

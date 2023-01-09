@@ -32,6 +32,8 @@ router.get('/getpost/:id', verifyJWT,userController.getPost)
 
 router.get('/getComments/:id',verifyJWT, userController.getComments)
 
+router.put('/deletecomment',verifyJWT, userController.deleteComments)
+
 router.get('/getsearch/:id',verifyJWT, userController.getSearch)
 
 router.post('/like', verifyJWT,userController.doLike)
