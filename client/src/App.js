@@ -23,7 +23,7 @@ function App() {
 
   const [sockettwo, setSockettwo] = useState(null)
 
-  const token = localStorage.getItem('user')?jwt_decode(localStorage.getItem('user')):''
+  const token = localStorage.getItem('user')?jwt_decode(localStorage.getItem('user')):'' 
 
   useEffect(() => {
     socket?.emit('addUser', token.id)
@@ -33,7 +33,7 @@ function App() {
   useEffect(() => {
     setSockettwo(io('http://relier.tk',{path:"/socketnotification/socket.io"}))
   }, [])
-  return (
+  return ( 
     <Router>
       <Modal>
         <EditModal>
