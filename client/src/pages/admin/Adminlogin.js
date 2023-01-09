@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from '../../Axios/AxiosInstance'; 
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form"
 import { Link, useNavigate } from 'react-router-dom'
@@ -17,7 +17,7 @@ const Adminlogin = () => {
   const Submit =(e)=>{
   const {email,password} = e
   if(email && password){
-    axios.post("http://localhost:4000/admin",e)
+    axios.post("/admin",e)
       .then((response)=>{
           navigate('/admin/dashboard')
       }).catch((error)=>{

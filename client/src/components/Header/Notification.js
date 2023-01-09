@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../Axios/AxiosInstance';
 import React, { useEffect } from 'react'
 import Profilepic from '../../assets/images.jpg'
 import { useState } from 'react';
@@ -20,7 +20,7 @@ const Notification = ({ usersData }) => {
             setAction("comment on")
         }
 
-        axios.get("http://localhost:4000/editProfile/" + userId, {
+        axios.get("/editProfile/" + userId, {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },
@@ -37,7 +37,7 @@ const Notification = ({ usersData }) => {
                 <div className='flex p-1 w-80 '>
                     {
                         data?.profile != null ?
-                            <img className='rounded-full w-10 h-10 ml-2 object-cover' src={`/images/${data?.profile}`} alt="#" />
+                            <img className='rounded-full w-10 h-10 ml-2 object-cover' src={`${axios.images}/images/${data?.profile}`} alt="#" />
                             :
                             <img className='rounded-full w-10 h-10 ml-2 object-cover' src={Profilepic} alt="yess" />
                     }

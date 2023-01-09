@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../Axios/AxiosInstance';
 import Profilepic from '../../assets/images.jpg'
 import { useEffect, useState } from 'react'
 import { format } from 'timeago.js';
@@ -10,7 +10,7 @@ const Message = ({ message,own}) => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        axios.get("http://localhost:4000/editProfile/" + message.sender,{
+        axios.get("/editProfile/" + message.sender,{
             headers: {
               "x-access-token": localStorage.getItem("user"),
             },
@@ -36,7 +36,7 @@ const Message = ({ message,own}) => {
                     </div>
                     {
                         data?.profile != null ?
-                            <img className="w-6 h-6 rounded-full order-1 my-auto" src={`/images/${data?.profile}`} alt="#" />
+                            <img className="w-6 h-6 rounded-full order-1 my-auto" src={`${axios.images}/images/${data?.profile}`} alt="#" />
                             :
                             <img className="w-6 h-6 rounded-full order-1 my-auto" src={Profilepic} alt="yess" />
                     }

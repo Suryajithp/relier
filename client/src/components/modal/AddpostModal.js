@@ -3,7 +3,7 @@ import { CgClose } from 'react-icons/cg';
 import { BiImageAdd } from 'react-icons/bi';
 import { ModalContext } from '../../utilitis/Context';
 import jwt_decode from "jwt-decode";
-import axios from 'axios';
+import axios from '../../Axios/AxiosInstance';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -44,7 +44,7 @@ const AddpostModal = () => {
         Data.append('user', decoded.id)
         const { image, discription } = formData
         if (image || discription) {
-            axios.post("http://localhost:4000/addpost", Data,{
+            axios.post("/addpost", Data,{
                 headers: {
                   "x-access-token": localStorage.getItem("user"),
                 },

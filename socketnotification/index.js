@@ -1,10 +1,8 @@
-import { Server } from "socket.io";
-
-const io = new Server({
-    cors: {
-        origin: "http://localhost:3000"
-    }
-});
+const io = require('socket.io')(5000,{
+    cors:{
+        origin:"http://localhost:3000",
+    },
+})
 
 let onlineUsers = [];
 
@@ -36,10 +34,17 @@ io.on("connection", (socket) => {
         })
     })
 
+    socket.on("sendMessageNotification", ({ senderName, receiverName,type }) => {
+        const receiver = getUser(receiverName)
+        console.log('fefregre');
+        io.to(receiver?.socketId).emit("getMessageNotification", {
+            senderName,
+            type
+        })
+    })
+
     socket.on("disconnect", () => {
         console.log("someone has left");
         removeUser(socket.id)
     })
 });
-
-io.listen(5000);

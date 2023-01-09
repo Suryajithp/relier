@@ -1,15 +1,15 @@
 import Chats from '../components/Chats/Chats';
-import axios from 'axios'
+import axios from '../Axios/AxiosInstance';
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Header/Navbar'
 
 
-const Chat = ({socket}) => {
+const Chat = ({socket,notification}) => {
 
     const navigate = useNavigate()
     const userAuthenticated = () => {
-      axios.get("http://localhost:4000/isUserAuth", {
+      axios.get("/isUserAuth", {
         headers: {
           "x-access-token": localStorage.getItem("user"),
         },
@@ -27,7 +27,7 @@ const Chat = ({socket}) => {
     return (
         <div className='bg-sky-50 h-screen scrollbar-hide overflow-hidden'>
             <Navbar />
-            <Chats socket={socket}/>
+            <Chats socket={socket} notification={notification}/>
         </div>
     )
 }

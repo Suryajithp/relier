@@ -1,7 +1,7 @@
 import Profilepic from '../../assets/images.jpg'
 import coverImg from '../../assets/kristina-tripkovic-8Zs5H6CnYJo-unsplash.jpg'
 import { useContext, useEffect, useState } from 'react'
-import axios from 'axios';
+import axios from '../../Axios/AxiosInstance';
 import { CommentContext, FollowContext, UserContext } from '../../utilitis/Context';
 import { useNavigate } from 'react-router-dom';
 import jwt_decode from "jwt-decode";
@@ -27,7 +27,7 @@ const Profile = () => {
 
     const token = localStorage.getItem('user')
     let decoded = jwt_decode(token)
-    axios.get("http://localhost:4000/getuserpost/" + decoded.id,{
+    axios.get("/getuserpost/" + decoded.id,{
       headers: {
         "x-access-token": localStorage.getItem("user"),
       },
@@ -37,7 +37,7 @@ const Profile = () => {
       }).catch((error) => {
         navigate('/error')
       })
-    axios.get("http://localhost:4000/checkfollow/" + decoded.id,{
+    axios.get("/checkfollow/" + decoded.id,{
       headers: {
         "x-access-token": localStorage.getItem("user"),
       },
@@ -79,7 +79,7 @@ const Profile = () => {
         <img className='rounded-md w-full h-auto z-0 ' src={coverImg} alt="" />
         {
           data[0]?.profile != null ?
-            <img className='rounded-full w-3/12 md:w-2/12 h-auto mt-[-8%] mx-auto md:ml-10 outline outline-4 outline-white ' src={`/images/${data[0]?.profile}`} alt="" />
+            <img className='rounded-full w-3/12 md:w-2/12 h-auto mt-[-8%] mx-auto md:ml-10 outline outline-4 outline-white ' src={`${axios.images}/images/${data[0]?.profile}`} alt="" />
             :
             <img className='rounded-full w-3/12 md:w-2/12 h-auto mt-[-8%] mx-auto md:ml-10 outline outline-4 outline-white ' src={Profilepic} alt="yess" />
         }
@@ -102,8 +102,8 @@ const Profile = () => {
       <div className='w-10/12 mx-auto m-5 grid grid-cols-3 gap-1 md:gap-4'>
         {
           data.map((item) => (
-            <div className='w-full relative' onClick={e => openModal(item._id)} >
-              <img className='rounded-sm w-full h-28 sm:36 lg:h-56 ' src={`/images/${item.post}`} alt="#" />
+            <div className='w-full relative' onClick={e => openModal(item)} >
+              <img className='rounded-sm w-full h-28 sm:36 lg:h-56 ' src={`${axios.images}/images/${item.post}`} alt="#" />
               <div className='group/item hover:bg-slate-800 hover:bg-opacity-50 flex justify-center items-center absolute
                 top-0 right-0 bottom-0 left-0 text-white text-lg '>
                 <div className=' rounded-md w-5/12 md:w-3/12  group/edit invisible  group-hover/item:visible'>

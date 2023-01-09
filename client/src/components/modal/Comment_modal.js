@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../Axios/AxiosInstance';
 import { useContext, useEffect, useState } from 'react'
 import { CgClose } from 'react-icons/cg';
 import Profilepic from '../../assets/images.jpg'
@@ -27,7 +27,7 @@ const Comment_modal = ({ userdata, socket, user }) => {
     } = useForm();
 
     const commentUp = (e) => {
-        axios.get("http://localhost:4000/getpost/" + e, {
+        axios.get("/getpost/" + e, {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },
@@ -36,7 +36,7 @@ const Comment_modal = ({ userdata, socket, user }) => {
         }).catch((error) => {
             navigate('/error')
         })
-        axios.get("http://localhost:4000/getComments/" + e, {
+        axios.get("/getComments/" + e, {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },
@@ -49,7 +49,7 @@ const Comment_modal = ({ userdata, socket, user }) => {
     }
 
     useEffect(() => {
-        commentUp(socket?userdata._id:userdata)
+        commentUp(userdata._id)
     }, [value])
 
     const sendComment = (e) => {
@@ -61,7 +61,7 @@ const Comment_modal = ({ userdata, socket, user }) => {
         const comments = { comment, userId, postId }
         if (comment) {
 
-            axios.post("http://localhost:4000/comment", comments, {
+            axios.post("/comment", comments, {
                 headers: {
                     "x-access-token": localStorage.getItem("user"),
                 },
@@ -73,9 +73,9 @@ const Comment_modal = ({ userdata, socket, user }) => {
                     type
                 })
 
-                const receiverId= post
+                const receiverId = post
         const notificationData = { userId, postId,receiverId ,type }
-          const response = await axios.post("http://localhost:4000/notification", notificationData, {
+          const response = await axios.post("/notification", notificationData, {
                 headers: {
                     "x-access-token": localStorage.getItem("user"),
                 },
@@ -98,7 +98,7 @@ const Comment_modal = ({ userdata, socket, user }) => {
             < CgClose className='right-8 top-5 absolute h-10 w-12 text-gray-100' onClick={toggleModal} />
             <div className=' rounded-md w-11/12 md:w-10/12 lg:w-7/12 flex h-[60%] lg:h-[70%]'>
                 <div className='hidden md:block w-1/2'>
-                    <img alt='#' className='w-auto h-full object-cover ml-auto' src={`/images/${postmodaldata.post}`}></img>
+                    <img alt='#' className='w-auto h-full object-cover ml-auto' src={`${axios.images}/images/${postmodaldata.post}`}></img>
                 </div>
                 <div class=" w-full md:w-1/2 h-full bg-white rounded-md text-center">
                     <div className="p-2 w-full h-[10%] rounded-md flex">
@@ -113,7 +113,7 @@ const Comment_modal = ({ userdata, socket, user }) => {
                                             <div className="w-10 h-10 rounded-full border-2 p-[2px] border-slate-300">
                                                 {
                                                     item?.profile != null ?
-                                                        <img className='rounded-full object-cover' src={`/images/${item?.profile}`} alt="" />
+                                                        <img className='rounded-full object-cover' src={`${axios.images}/images/${item?.profile}`} alt="" />
                                                         :
                                                         <img className='rounded-full object-cover' src={Profilepic} alt="yess" />
                                                 }

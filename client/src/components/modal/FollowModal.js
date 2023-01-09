@@ -3,6 +3,7 @@ import Profilepic from '../../assets/images.jpg'
 import { CgClose } from 'react-icons/cg'
 import { FollowContext, friendContext, UserContext } from '../../utilitis/Context'
 import { useNavigate } from 'react-router-dom'
+import axios from '../../Axios/AxiosInstance';
 
 const FollowModal = (Props) => {
 
@@ -40,14 +41,14 @@ const FollowModal = (Props) => {
                 </div>
                 <div className='h-44 overflow-y-scroll scrollbar-hide p-2'>
                     {
-                        props.length > 0 ?
+                        props?.length > 0 ?
                             props.map((item) => (
                                 <div className='flex h-12 my-1 cursor-pointer gap-2'  onClick={e=>friendProfile(item._id)}>
                                     
                                     <div className="w-12  rounded-full flex border-2  border-slate-300">
                                         {
                                             item?.profile != null ?
-                                                <img className='rounded-full w-12   h-auto mx-auto outline outline-4 outline-white ' src={`/images/${item?.profile}`} alt="#" />
+                                                <img className='rounded-full w-12   h-auto mx-auto outline outline-4 outline-white ' src={`${axios.images}/images/${item?.profile}`} alt="#" />
                                                 :
                                                 <img className='rounded-full w-12   h-auto mx-auto outline outline-4 outline-white ' src={Profilepic} alt="yess" />
                                         }

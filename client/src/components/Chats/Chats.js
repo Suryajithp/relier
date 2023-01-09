@@ -1,22 +1,24 @@
-import axios from 'axios'
+import axios from '../../Axios/AxiosInstance';
 import { useRef } from 'react'
 import { useState, useContext, useEffect } from 'react'
 import { FaRegPaperPlane } from 'react-icons/fa'
-import { UserContext } from '../../utilitis/Context'
+import { UserContext,ChatContext } from '../../utilitis/Context'
 import chatImg from '../../assets/chat.png'
 import Conversation from './Conversation'
 import Message from './Message'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 
-const Chat = ({socket}) => {
+const Chat = ({socket,notification}) => {
 
   const [conversations, setConversations] = useState([])
   const [currentChat, setCurrentChat] = useState(null)
   const [messages, setMessages] = useState([])
+  const [friends, setFriends] = useState(false)
   const [arrivalMessages, setArrivalMessages] = useState(null)
 
   const { usermodal, setusermodal } = useContext(UserContext)
+  const { chat, setChat } = useContext(ChatContext)
 
   const scrollRef = useRef()
 
@@ -38,6 +40,13 @@ const Chat = ({socket}) => {
         createdAt: Date.now()
       })
     })
+
+    if(chat){
+      console.log('chat');
+      console.log(chat[0]);
+      setCurrentChat(chat[0])
+      setChat(null)
+    }
   }, [])
 
   useEffect(() => {
@@ -55,7 +64,7 @@ const Chat = ({socket}) => {
   useEffect(() => {
     const getConversation = async () => {
       try {
-        const res = await axios.get('http://localhost:4000/conversations/' + usermodal.id, {
+        const res = await axios.get('/conversations/' + usermodal.id, {
           headers: {
             "x-access-token": localStorage.getItem("user"),
           },
@@ -66,12 +75,13 @@ const Chat = ({socket}) => {
       }
     }
     getConversation()
-  }, [usermodal.id])
+  }, [usermodal.id,friends])
 
   useEffect(() => {
     const getMessages = async () => {
       try {
-        const res = await axios.get('http://localhost:4000/messages/' + currentChat?._id, {
+
+        const res = await axios.get('/messages/' + currentChat?._id, {
           headers: {
             "x-access-token": localStorage.getItem("user"),
           },
@@ -102,14 +112,24 @@ const Chat = ({socket}) => {
       receiverId,
       text: newMessages
     })
+
+    const type = 3
+
+    notification?.emit("sendMessageNotification", {
+      senderName: usermodal.id,
+      receiverName: receiverId,
+      type
+    })
+
     try {
-      const res = await axios.post('http://localhost:4000/messages', message, {
+      const res = await axios.post('/messages', message, {
         headers: {
           "x-access-token": localStorage.getItem("user"),
         },
       })
       setMessages([...messages, res.data])
       reset()
+      setFriends(!friends)
     } catch (error) {
       navigate('/error')
     }
@@ -125,7 +145,7 @@ const Chat = ({socket}) => {
 
       <div className='w-full md:w-4/12 h-1/6  md:h-full border-r-2 rounded-sm bg-white'>
         <div className='w-full md:h-10 md:mb-2 border-b-2 flex rounded-sm bg-white'>
-          <h1 className='text-gray-700 text-lg font-semibold my-auto ml-3'>Resend Chats</h1>
+          <h1 className='text-gray-700 text-lg font-semibold my-auto ml-3'>Recent Chats</h1>
         </div>
         <div className='flex md:block border-b-2 md:border-none w-full overflow-x-scroll scrollbar-hide'>
         {

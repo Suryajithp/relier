@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from '../Axios/AxiosInstance';
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form"
 import signupImg from '../assets/signup.jpeg'
@@ -16,7 +16,7 @@ const Signup = () => {
     } = useForm();
     
     const userAuthenticeted = () => {
-        axios.get("http://localhost:4000/isUserAuth", {
+        axios.get("/isUserAuth", {
           headers: {
             "x-access-token": localStorage.getItem("user"),
           },
@@ -36,7 +36,7 @@ const Signup = () => {
 const Submit =(e)=>{
     const { username, email,password } = e
    if(username && email && password){
-    axios.post("http://localhost:4000/signup",e)
+    axios.post("/signup",e)
     .then((response)=>{
         if(response){navigate('/')}
     }).catch((error)=>{
@@ -80,7 +80,7 @@ const Submit =(e)=>{
                             required: "password Required",
                             pattern: {
                                 value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-                                message: "invalid password "
+                                message: "minimum 8 characters it must contains letters & digit"
                             }
                         })} />
                     {errors.password && (<span className='text-red-500'>{errors.password.message}</span>)}

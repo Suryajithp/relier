@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Profilepic from '../../assets/images.jpg'
+import axios from '../../Axios/AxiosInstance';
 import { friendContext, SearchContext, UserContext } from '../../utilitis/Context';
 
 const SearchModal = ({ searchData }) => {
@@ -35,7 +36,7 @@ const SearchModal = ({ searchData }) => {
                                         <div className="w-12  rounded-full flex border-2  border-slate-300">
                                             {
                                                 item?.profile != null ?
-                                                    <img className='rounded-full w-12   h-auto mx-auto outline outline-4 outline-white ' src={`/images/${item?.profile}`} alt="#" />
+                                                    <img className='rounded-full w-12   h-auto mx-auto outline outline-4 outline-white ' src={`${axios.images}/images/${item?.profile}`} alt="#" />
                                                     :
                                                     <img className='rounded-full w-12   h-auto mx-auto outline outline-4 outline-white ' src={Profilepic} alt="yess" />
                                             }

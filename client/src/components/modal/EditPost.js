@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { CgClose } from 'react-icons/cg';
 import { EditContext } from '../../utilitis/Context';
-import axios from 'axios';
+import axios from '../../Axios/AxiosInstance';
 import { useNavigate } from 'react-router-dom';
 
 const EditPost = ({ postid }) => {
@@ -12,7 +12,7 @@ const EditPost = ({ postid }) => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        axios.get('http://localhost:4000/getpost/' + postid, {
+        axios.get('/getpost/' + postid, {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },
@@ -35,7 +35,7 @@ const EditPost = ({ postid }) => {
     }
 
     const submit = (e) => {
-        axios.post("http://localhost:4000/editpost", formData, {
+        axios.post("/editpost", formData, {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },
@@ -58,7 +58,7 @@ const EditPost = ({ postid }) => {
                                 <h1 className="p-2 my-auto  text-base font-semibold" >Edit Post</h1>
                             </div>
                             <div className=' pt-0 my-auto h-5/6 w-full'>
-                                <img className='w-11/12 h-full mx-auto outline outline-4 outline-white ' src={`/images/${formData?.post}`} alt="" />
+                                <img className='w-11/12 h-full mx-auto outline outline-4 outline-white ' src={`${axios.images}/images/${formData?.post}`} alt="" />
                             </div>
                         </div>
                         <div className='w-0.5 h-[80%] my-auto bg-gray-200'></div>

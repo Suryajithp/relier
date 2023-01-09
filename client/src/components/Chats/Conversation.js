@@ -1,7 +1,7 @@
 import Profilepic from '../../assets/images.jpg'
 import { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../utilitis/Context'
-import axios from 'axios'
+import axios from '../../Axios/AxiosInstance';
 import { useNavigate } from 'react-router-dom'
 
 const Conversation = ({ conversation }) => {
@@ -18,7 +18,7 @@ const Conversation = ({ conversation }) => {
 
         const getUser = async () => {
             try {
-                const res = await axios('http://localhost:4000/getuserpost/' + friendId,{
+                const res = await axios.get('/getuserpost/' + friendId,{
                     headers: {
                       "x-access-token": localStorage.getItem("user"),
                     },
@@ -38,7 +38,7 @@ const Conversation = ({ conversation }) => {
                 <div className=" m-1 flex ">
                     {
                       user &&user[0]?.profile ?
-                            <img className='rounded-full  w-7 h-7 md:w-12 md:h-12 mx-auto ' src={`/images/${user[0]?.profile}`} alt="#" />
+                            <img className='rounded-full  w-7 h-7 md:w-12 md:h-12 mx-auto ' src={`${axios.images}/images/${user[0]?.profile}`} alt="#" />
                             : <img className='rounded-full w-7 h-7 md:w-12 md:h-12 mx-auto' src={Profilepic} alt="yess" />
                     }
                 </div>

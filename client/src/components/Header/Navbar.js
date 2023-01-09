@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../Axios/AxiosInstance';
 import { useContext, useEffect, useState } from 'react';
 import { FaBell, FaFacebookMessenger, FaHome, FaPlus } from 'react-icons/fa';
 import jwt_decode from "jwt-decode";
@@ -20,6 +20,8 @@ const Navbar = ({ socket }) => {
     const [data, setData] = useState(null)
     const [dropdown, setDropDown] = useState(false)
     const [notifications, setNotifications] = useState([])
+    const [notificationsStatus, setNotificationsStatus] = useState(false)
+    const [chatnotifications, setChatNotifications] = useState('')
     const [open, setOpen] = useState(false)
 
 
@@ -29,7 +31,7 @@ const Navbar = ({ socket }) => {
         let decoded = jwt_decode(token)
         setusermodal(decoded)
 
-        axios.get("http://localhost:4000/editProfile/" + decoded.id, {
+        axios.get("/editProfile/" + decoded.id, {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },
@@ -62,7 +64,7 @@ const Navbar = ({ socket }) => {
     const serchModal = (e) => {
         const data = e.target.value
         if (data) {
-            axios.get('http://localhost:4000/getsearch/' + data, {
+            axios.get('/getsearch/' + data, {
                 headers: {
                     "x-access-token": localStorage.getItem("user"),
                 },
@@ -77,9 +79,21 @@ const Navbar = ({ socket }) => {
     }
 
     useEffect(() => {
+        socket?.on('getMessageNotification', data => {
+            setChatNotifications(data)
+        })
+    }, [socket])
+
+    useEffect(() => {
+        socket?.on('getNotification', data => {
+            setNotificationsStatus(!notificationsStatus)
+        })
+    }, [socket])
+
+    useEffect(() => {
         const userId = usermodal.id
         if (userId) {
-            axios.get('http://localhost:4000/getNotification/' + userId, {
+            axios.get('/getNotification/' + userId, {
                 headers: {
                     "x-access-token": localStorage.getItem("user"),
                 },
@@ -95,6 +109,11 @@ const Navbar = ({ socket }) => {
             })
         }
     }, [usermodal, socket, open])
+
+    const handleModal = () =>{
+        setNotificationsStatus(!notificationsStatus)
+        setOpen(!open)
+    }
     return (
         <div className=' flex justify-center place-content-center h-20 w-full sticky top-0  bg-white '>
             <div className='w-10/12 sm:w-8/12 h-14 flex my-auto justify-between  bg-white '>
@@ -111,10 +130,15 @@ const Navbar = ({ socket }) => {
                     <div className='grid grid-cols-4 gap-4 place-items-center my-auto text-xl w-10/12 text-center'>
                         <div className='text-xl  text-center hover:text-sky-500'><FaHome onClick={Home} /></div>
                         <div className='text-xl  text-center hover:text-sky-500'><FaPlus onClick={chageModal} /></div>
-                        <div className='text-xl  text-center hover:text-sky-500'><FaFacebookMessenger onClick={chat} /></div>
+                        <div className='text-xl flex text-center '>
+                            <FaFacebookMessenger className='my-auto hover:text-sky-500' onClick={chat} />
+                            {chatnotifications &&
+                                <h1 className='ml-[-5px] text-xs text-white text-center font-bold w-2 h-2 bg-cyan-600 rounded-full'></h1>
+                            }
+                        </div>
                         <div className='text-xl flex text-center '>
                             <FaBell className='my-auto hover:text-sky-500' onClick={() => setOpen(!open)} />
-                            {notifications.length > 0 &&
+                            {notificationsStatus &&
                                 <h1 className='ml-[-8px] text-xs text-white text-center font-bold w-2 h-2 bg-cyan-600 rounded-full'></h1>
                             }
                         </div>
@@ -124,7 +148,7 @@ const Navbar = ({ socket }) => {
                 <div className='w-min-10 bg-white grid place-items-center' onClick={dropDown}>
                     {
                         data?.profile != null ?
-                            <img className='rounded-full  w-10 object-cover' src={`/images/${data?.profile}`} alt="#" />
+                            <img className='rounded-full  w-10 object-cover' src={`${axios.images}/images/${data?.profile}`} alt="#" />
                             :
                             <img className='rounded-full  w-10 object-cover' src={Profilepic} alt="#" />
                     }
@@ -140,7 +164,7 @@ const Navbar = ({ socket }) => {
             }
 
             {open && (notifications.length > 0 ?
-                <div className='absolute top-0 sm:left-[13%] sm:right-[16%] h-screen bg-transparent' onClick={() => setOpen(!open)}>
+                <div className='absolute top-0 sm:left-[13%] sm:right-[16%] h-screen bg-transparent' onClick={handleModal}>
                     <div className=' my-16 ml-auto w-fit h-56  bg-white p-1 border rounded z-50 overflow-y-scroll scrollbar-hide'>
                         <h1 className='text-base font-semibold w-fit mx-auto '>Notifications</h1>
                         <hr />

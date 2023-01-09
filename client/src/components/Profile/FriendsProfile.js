@@ -1,8 +1,8 @@
 import Profilepic from '../../assets/images.jpg'
 import coverImg from '../../assets/kristina-tripkovic-8Zs5H6CnYJo-unsplash.jpg'
 import { useContext, useEffect, useState } from 'react'
-import axios from 'axios';
-import { CommentContext, FollowContext, friendContext, UserContext } from '../../utilitis/Context';
+import axios from '../../Axios/AxiosInstance';
+import { ChatContext, CommentContext, FollowContext, friendContext, UserContext } from '../../utilitis/Context';
 import { useNavigate } from 'react-router-dom';
 import Comment_modal from '../modal/Comment_modal';
 import { FaHeart } from 'react-icons/fa';
@@ -14,6 +14,7 @@ const Profile = () => {
     const { usermodal, setusermodal } = useContext(UserContext)
     const { followmodal, setFollowmodal } = useContext(FollowContext)
     const { showCommentmodal, setShowCommentmodal } = useContext(CommentContext)
+    const { chat, setChat } = useContext(ChatContext)
 
 
     const [data, setData] = useState([]);
@@ -31,7 +32,7 @@ const Profile = () => {
         if (!friend) {
             navigate('/home')
         } else {
-            axios.get("http://localhost:4000/getuserpost/" + friend,{
+            axios.get("/getuserpost/" + friend,{
                 headers: {
                   "x-access-token": localStorage.getItem("user"),
                 },
@@ -42,7 +43,7 @@ const Profile = () => {
                     navigate('/error')
                 })
             const friendId = friend
-            axios.get("http://localhost:4000/checkfollow/" + friendId,{
+            axios.get("/checkfollow/" + friendId,{
                 headers: {
                   "x-access-token": localStorage.getItem("user"),
                 },
@@ -65,7 +66,7 @@ const Profile = () => {
         const followData = {
             friendId, userId
         }
-        axios.post("http://localhost:4000/follow", followData,{
+        axios.post("/follow", followData,{
             headers: {
               "x-access-token": localStorage.getItem("user"),
             },
@@ -95,15 +96,19 @@ const Profile = () => {
        const receiverId=data[0]?.id
        const senderId=usermodal.id
        const details ={senderId,receiverId}
-        axios.post("http://localhost:4000/conversations/check", details).then(async(res) => {
+        axios.post("/conversations/check", details).then(async(res) => {
             if(!res.data.length>0){
-            const messageId = await  axios.post("http://localhost:4000/conversations",details,{
+            const messageId = await  axios.post("/conversations",details,{
                 headers: {
                   "x-access-token": localStorage.getItem("user"),
                 },
               })
             if(messageId){
+                const data = messageId.data 
+                    setChat([data])
             }
+            }else{
+                setChat(res.data)
             }
                 navigate('/chat')
         }).catch((error) => {
@@ -122,7 +127,7 @@ const Profile = () => {
                 <img className='rounded-md w-full h-auto z-0 ' src={coverImg} alt="" />
                 {
                     data[0]?.profile != null ?
-                        <img className='rounded-full w-3/12 md:w-2/12 h-auto mt-[-8%] mx-auto md:ml-10 outline outline-4 outline-white ' src={`/images/${data[0]?.profile}`} alt="" />
+                        <img className='rounded-full w-3/12 md:w-2/12 h-auto mt-[-8%] mx-auto md:ml-10 outline outline-4 outline-white ' src={`${axios.images}/images/${data[0]?.profile}`} alt="" />
                         :
                         <img className='rounded-full w-3/12 md:w-2/12 h-auto mt-[-8%] mx-auto md:ml-10 outline outline-4 outline-white ' src={Profilepic} alt="yess" />
                 }
@@ -152,8 +157,8 @@ const Profile = () => {
             <div className='w-10/12 mx-auto m-5 grid grid-cols-3 gap-1 md:gap-4'>
                 {
                     data.map((item) => (
-                        <div className='w-full relative' onClick={e => openModal(item._id)} >
-                            <img className='rounded-sm w-full h-28 sm:36 lg:h-56 ' src={`/images/${item.post}`} alt="#" />
+                        <div className='w-full relative' onClick={e => openModal(item)} >
+                            <img className='rounded-sm w-full h-28 sm:36 lg:h-56 ' src={`${axios.images}/images/${item.post}`} alt="#" />
                             <div className='group/item hover:bg-slate-800 hover:bg-opacity-50 flex justify-center items-center absolute
                                 top-0 right-0 bottom-0 left-0 text-white text-lg '>
                                 <div className=' rounded-md w-5/12 md:w-3/12  group/edit invisible  group-hover/item:visible'>

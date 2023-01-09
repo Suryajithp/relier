@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../../Axios/AxiosInstance';
 import React, { useEffect, useReducer, useState } from 'react'
 import { CgClose } from 'react-icons/cg'
 
@@ -18,7 +18,7 @@ const Post = () => {
     const pageNumber = []
 
     useEffect(() => {
-        axios.get("http://localhost:4000/admin/postlist").then((response) => {
+        axios.get("/admin/postlist").then((response) => {
             setData(response.data)
         })
     }, [reducerValue])
@@ -32,7 +32,7 @@ const Post = () => {
 
 
     const changeStatus = (id) => {
-        axios.post("http://localhost:4000/admin/changepoststatus/" + id)
+        axios.post("/admin/changepoststatus/" + id)
             .then((res => {
                 forceUpdate()
             }))

@@ -4,7 +4,7 @@ import { BsThreeDots } from 'react-icons/bs';
 import { AiOutlineDoubleRight } from 'react-icons/ai';
 import { useContext, useEffect, useState } from 'react';
 import { format } from 'timeago.js';
-import axios from 'axios';
+import axios from '../../Axios/AxiosInstance';
 import { CommentContext, EditContext, friendContext, UserContext } from '../../utilitis/Context';
 import Comment_modal from '../modal/Comment_modal';
 import EditPost from '../modal/EditPost';
@@ -27,13 +27,14 @@ const Body = ({ socket, user }) => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        axios.get("http://localhost:4000/getallpost", {
+        axios.get("/getallpost", {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },
         })
             .then((response) => {
                 setData(response.data)
+                console.log(response.data);
             }).catch((error) => {
                 navigate('/error')
             })
@@ -49,7 +50,7 @@ const Body = ({ socket, user }) => {
         const postId = post._id
         const type = 1
         const likeData = { userId, postId }
-        axios.post("http://localhost:4000/like", likeData, {
+        axios.post("/like", likeData, {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },
@@ -63,7 +64,7 @@ const Body = ({ socket, user }) => {
             })
             const receiverId = post.id
             const notificationData = { userId, postId, receiverId, type }
-            const response = await axios.post("http://localhost:4000/notification", notificationData, {
+            const response = await axios.post("/notification", notificationData, {
                 headers: {
                     "x-access-token": localStorage.getItem("user"),
                 },
@@ -77,7 +78,7 @@ const Body = ({ socket, user }) => {
     const unlike = (postId) => {
         const userId = usermodal.id
         const likeData = { userId, postId }
-        axios.post("http://localhost:4000/like", likeData, {
+        axios.post("/like", likeData, {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },
@@ -97,7 +98,7 @@ const Body = ({ socket, user }) => {
         const userId = usermodal.id
         const postId = dropdown.data._id
         const reportData = { userId, postId, message }
-        axios.post("http://localhost:4000/report", reportData, {
+        axios.post("/report", reportData, {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },
@@ -112,7 +113,7 @@ const Body = ({ socket, user }) => {
 
     const deletePost = (postId) => {
         const id = { postId }
-        axios.post("http://localhost:4000/deletepost", id, {
+        axios.post("/deletepost", id, {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },
@@ -143,7 +144,7 @@ const Body = ({ socket, user }) => {
 
         if (userId) {
 
-            axios.get("http://localhost:4000/getsuggestion/" + userId, {
+            axios.get("/getsuggestion/" + userId, {
                 headers: {
                     "x-access-token": localStorage.getItem("user"),
                 },
@@ -174,7 +175,7 @@ const Body = ({ socket, user }) => {
                                     <div className='flex w-full rounded hover:bg-gray-200 p-2' onClick={() => friendProfile(item.userData._id)}>
                                         {
                                             item?.userData.profile != null ?
-                                                <img className='w-12 h-12 rounded-full object-cover' src={`/images/${item?.userData.profile}`} alt="#" />
+                                                <img className='w-12 h-12 rounded-full object-cover' src={`${axios.images}/images/${item?.userData.profile}`} alt="#" />
                                                 :
                                                 <img className='w-12 h-12 rounded-full object-cover' src={Profilepic} alt="yess" />
                                         }
@@ -201,7 +202,7 @@ const Body = ({ socket, user }) => {
                                                 <div className="w-12 h-12 rounded-full border-2 p-[2px] border-slate-300">
                                                     {
                                                         item?.profile != null ?
-                                                            <img className='rounded-full object-cover' src={`/images/${item?.profile}`} alt="#" />
+                                                            <img className='rounded-full object-cover' src={`${axios.images}/images/${item?.profile}`} alt="#" />
                                                             :
                                                             <img className='rounded-full object-cover' src={Profilepic} alt="yess" />
                                                     }
@@ -293,7 +294,7 @@ const Body = ({ socket, user }) => {
                                         <hr className='m-1' />
                                         <div className="p-2 pt-0 my-auto text-md font-sans">{item.discription}</div>
                                         <div className="mx-2 bg-slate-200">
-                                            <img alt='#' src={`/images/${item.post}`} className="h-auto max-h-[560px] object-cover w-auto mx-auto" />
+                                            <img alt='#' src={`${axios.images}/images/${item.post}`} className="h-auto max-h-[560px] object-cover w-auto mx-auto" />
                                         </div>
                                         <div className=" w-full h-12 pb-2 flex " >
                                             {item.like.includes(usermodal.id) ? <FaHeart onClick={(e) => { unlike(item._id) }} className=" m-3 mr-0 h-5  w-5 my-auto " color='red' /> : <FaHeart onClick={(e) => { like(item) }} className=" m-3 mr-0 h-5  w-5 my-auto " color='gray' />}<h1 className='my-auto mx-2'>{item.like.length}</h1>

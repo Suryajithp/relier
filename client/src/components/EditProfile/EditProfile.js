@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../Axios/AxiosInstance';
 import { useContext, useEffect, useState } from 'react';
 import { MdOutlineAddAPhoto } from 'react-icons/md';
 import { useForm } from 'react-hook-form';
@@ -22,7 +22,7 @@ const EditProfile = () => {
     } = useForm();
 
     const userDetails = () => {
-        axios.get("http://localhost:4000/editProfile/" + usermodal.id, {
+        axios.get("/editProfile/" + usermodal.id, {
             headers: {
                 "x-access-token": localStorage.getItem("user"),
             },
@@ -53,7 +53,7 @@ const EditProfile = () => {
         }
         const { email, username } = e
         if (email && username) {
-            axios.post("http://localhost:4000/editProfile", Data, {
+            axios.post("/editProfile", Data, {
                 headers: {
                     "x-access-token": localStorage.getItem("user"),
                 },
@@ -76,7 +76,7 @@ const EditProfile = () => {
                         showimage ?
                             <img className='rounded-full w-3/12 md:w-2/12 h-auto mt-3 mx-auto outline outline-4 outline-white ' src={showimage} alt="" /> :
                             data.profile != null ?
-                                <img className='rounded-full w-3/12 md:w-2/12 h-auto mt-3 mx-auto outline outline-4 outline-white ' src={`/images/${data?.profile}`} alt="" /> :
+                                <img className='rounded-full w-3/12 md:w-2/12 h-auto mt-3 mx-auto outline outline-4 outline-white ' src={`${axios.images}/images/${data?.profile}`} alt="" /> :
 
                                 <img className='rounded-full w-3/12 md:w-2/12 h-auto mt-3 mx-auto outline outline-4 outline-white ' src={postimgTwo} alt="" />
                     }

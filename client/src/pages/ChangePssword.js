@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../Axios/AxiosInstance'; 
 import forgotImg from '../assets/forgot.jpeg';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
@@ -21,7 +21,7 @@ const ChangePssword = () => {
     const Submit = (e) => {
         const { otp } = e
         if (otp) {
-            axios.post("http://localhost:4000/changepassword", e)
+            axios.post("/changepassword", e)
                 .then((response) => {
                       navigate('/')
                 }).catch((error) => {
@@ -58,7 +58,7 @@ const ChangePssword = () => {
                             required: "password Required",
                             pattern: {
                                 value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-                                message: "invalid password "
+                                message: "minimum 8 characters it must contains letters & digit "
                             }
                         })} />
                     {errors.password && (<span className='text-red-500'>{errors.password.message}</span>)}
