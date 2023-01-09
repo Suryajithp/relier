@@ -40,7 +40,6 @@ const Chat = ({socket,notification}) => {
         createdAt: Date.now()
       })
     })
-
     if(chat){
       console.log('chat');
       console.log(chat[0]);
@@ -80,12 +79,12 @@ const Chat = ({socket,notification}) => {
   useEffect(() => {
     const getMessages = async () => {
       try {
-
         const res = await axios.get('/messages/' + currentChat?._id, {
           headers: {
             "x-access-token": localStorage.getItem("user"),
           },
         })
+        console.log(res.data);
         setMessages(res.data)
       } catch (error) {
         navigate('/error')
@@ -148,13 +147,13 @@ const Chat = ({socket,notification}) => {
           <h1 className='text-gray-700 text-lg font-semibold my-auto ml-3'>Recent Chats</h1>
         </div>
         <div className='flex md:block border-b-2 md:border-none w-full overflow-x-scroll scrollbar-hide'>
-        {
-          conversations.map((c) => (
-            <div onClick={() => setCurrentChat(c)} >
-              <Conversation conversation={c} />
-            </div>
-          ))
-        }
+          {
+            conversations.map((c) => (
+              <div onClick={() => setCurrentChat(c)} >
+                <Conversation conversation={c} />
+              </div>
+            ))
+          }
         </div>
       </div>
       <div className='w-full md:w-8/12 h-5/6 md:h-full '>
@@ -171,10 +170,11 @@ const Chat = ({socket,notification}) => {
                     ))
                   }
                 </div>
-              </div> :
+              </div>
+               :
               <div className='flex w-full h-full bg-blue-100' >
                 <img src={chatImg} alt="" />
-              </div> 
+              </div>
           }
         </div>
         <div className=' bg-white w-full h-[10%] flex justify-center rounded-sm'>

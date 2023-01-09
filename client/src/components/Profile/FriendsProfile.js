@@ -23,7 +23,7 @@ const Profile = () => {
     const [value, setvalue] = useState(true);
     const [status, setStatus] = useState(true);
     const [userdata, setUserData] = useState('');
-    
+
 
     const navigate = useNavigate()
 
@@ -117,7 +117,7 @@ const Profile = () => {
         })
     }
 
-    const ckeck = (data)=>{
+    const ckeck = (data) => {
         return data._id === usermodal.id
     }
 
@@ -134,11 +134,11 @@ const Profile = () => {
                 }
                 <div className='w-full mt-[-2%] flex justify-between md:justify-end'>
                     <button className=' w-fit h-full md:mr-3 px-3 py-1 rounded hover:bg-blue-400 hover:text-white border text-right text-base my-auto text-blue-400 font-mono'
-                    onClick={message}>message</button>
+                        onClick={message}>message</button>
                     {
                         followdata[0]?.followers.some(ckeck) ?
-                    <button className='w-fit h-full px-2 py-1  bg-white rounded text-gray-500 font-semibold text-center border-gray-300 border' onClick={Follow}>Unfollow</button>
-                    : <button className='w-fit h-full px-4 py-1 bg-blue-400 rounded hover:bg-blue-500 font-semibold text-white text-center border-gray-300 border' onClick={Follow}>Follow</button>
+                            <button className='w-fit h-full px-2 py-1  bg-white rounded text-gray-500 font-semibold text-center border-gray-300 border' onClick={Follow}>Unfollow</button>
+                            : <button className='w-fit h-full px-4 py-1 bg-blue-400 rounded hover:bg-blue-500 font-semibold text-white text-center border-gray-300 border' onClick={Follow}>Follow</button>
                     }
 
                 </div>

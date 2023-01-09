@@ -1,7 +1,7 @@
 import axios from '../../Axios/AxiosInstance'; 
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form"
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const Adminlogin = () => {
     const navigate = useNavigate()
@@ -21,7 +21,6 @@ const Adminlogin = () => {
       .then((response)=>{
           navigate('/admin/dashboard')
       }).catch((error)=>{
-        const errormsg=error.response.data.msg
         setError(true)
       })
   }else{
@@ -29,9 +28,6 @@ const Adminlogin = () => {
   }
     return (
         <div className="flex justify-center  min-h-screen place-items-center">
-            {/* <div className=" m-4 p-12 bg-white hidden md:block md:w-1/2  lg:w-5/12">
-                <img src="https://img.freepik.com/premium-vector/online-registration-sign-up-with-man-sitting-near-smartphone_268404-95.jpg?w=2000" alt='' className="w-full" />
-            </div> */}
             <div className="w-11/12 p-12 m-4 bg-white sm:w-4/12  border rounded-md shadow-lg lg:w-3/12">
                 <h1 className="text-xl text-center font-semibold">LOGIN </h1>
                 <form className="mt-6" onSubmit={handleSubmit(Submit)}>

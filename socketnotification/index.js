@@ -5,6 +5,7 @@ const io = require('socket.io')(5000,{
     },
 })
 
+
 let onlineUsers = [];
 
 const addNewUser = (username, socketId) => {
@@ -28,6 +29,7 @@ io.on("connection", (socket) => {
 
     socket.on("sendNotification", ({ senderName, receiverName,postId,type }) => {
         const receiver = getUser(receiverName)
+        console.log();
         io.to(receiver?.socketId).emit("getNotification", {
             senderName,
             postId,
@@ -37,7 +39,7 @@ io.on("connection", (socket) => {
 
     socket.on("sendMessageNotification", ({ senderName, receiverName,type }) => {
         const receiver = getUser(receiverName)
-        console.log('fefregre');
+        console.log();
         io.to(receiver?.socketId).emit("getMessageNotification", {
             senderName,
             type

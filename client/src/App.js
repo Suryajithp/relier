@@ -17,7 +17,6 @@ import Notfound from './pages/Notfound';
 import ErrorPage from './pages/ErrorPage';
 import PostManage from './pages/admin/PostManage';
 import { useEffect, useState } from 'react';
-
 const socket = require('socket.io-client')('http://relier.tk',{path:"/socket/socket.io"})
 function App() {
 

@@ -8,9 +8,9 @@ module.exports = {
     addMessage: async (req, res) => {
         const newMessage = new Message(req.body)
         const conversationId= req.body.conversationId
-        await Conversation.findByIdAndUpdate(conversationId,{
-             lastMessage : newMessage._id
-         })
+       await Conversation.findByIdAndUpdate(conversationId,{
+            lastMessage : newMessage._id
+        })
         try {
             const savedMessage = await newMessage.save()
             res.status(200).json(savedMessage)
