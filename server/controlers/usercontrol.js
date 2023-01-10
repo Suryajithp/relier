@@ -412,6 +412,7 @@ module.exports = {
                     post: 1,
                     _id: 1,
                     discription: 1,
+                    commentId:'$comment._id',
                     time: '$comment.time',
                     userID: '$comment.userId'
 
@@ -431,6 +432,7 @@ module.exports = {
                     message: 1,
                     post: 1,
                     _id: 1,
+                    commentId:1,
                     discription: 1,
                     time: 1,
                     userID: 1,
