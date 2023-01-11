@@ -5,7 +5,7 @@ import { AiOutlineDoubleRight } from 'react-icons/ai';
 import { useContext, useEffect, useState } from 'react';
 import { format } from 'timeago.js';
 import axios from '../../Axios/AxiosInstance';
-import { CommentContext, EditContext, friendContext, UserContext } from '../../utilitis/Context';
+import { CommentContext, EditContext, friendContext, ModalContext, UserContext } from '../../utilitis/Context';
 import Comment_modal from '../modal/Comment_modal';
 import EditPost from '../modal/EditPost';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Body = ({ socket, user }) => {
     const { showCommentmodal, setShowCommentmodal } = useContext(CommentContext)
+    const { showmodal, setShowmodal } = useContext(ModalContext)
     const { editmodal, setEditmodal } = useContext(EditContext)
     const { friend, setFriend } = useContext(friendContext)
     const { usermodal, setusermodal } = useContext(UserContext)
@@ -38,7 +39,7 @@ const Body = ({ socket, user }) => {
             }).catch((error) => {
                 navigate('/error')
             })
-    }, [value, editmodal])
+    }, [value, editmodal,showmodal])
 
     const commentUp = (e) => {
         setUserData(e)

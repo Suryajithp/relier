@@ -53,7 +53,7 @@ const AddpostModal = () => {
                 .then((response) => {
                     setShowmodal(!showmodal)
                 }).catch((error) => {
-                    setError(!error)
+                    setError(true)
                 })
         } else {
             setShowmodal(!showmodal)
