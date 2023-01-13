@@ -17,7 +17,7 @@ import Notfound from './pages/Notfound';
 import ErrorPage from './pages/ErrorPage';
 import PostManage from './pages/admin/PostManage';
 import { useEffect, useState } from 'react';
-const socket = require('socket.io-client')('http://relier.tk',{path:"/socket/socket.io"})
+const socket = require('socket.io-client')('https://relier.tk',{path:"/socket/socket.io"})
 function App() {
 
   const [sockettwo, setSockettwo] = useState(null)
@@ -30,7 +30,7 @@ function App() {
 
 
   useEffect(() => {
-    setSockettwo(io('http://relier.tk',{path:"/socketnotification/socket.io"}))
+    setSockettwo(io('https://relier.tk',{path:"/socketnotification/socket.io"}))
   }, [])
   return ( 
     <Router>
