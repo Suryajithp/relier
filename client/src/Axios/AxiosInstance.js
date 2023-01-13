@@ -2,7 +2,7 @@ import axios from 'axios';
 
 
 const instance = axios.create({
-    baseURL: 'http://relier.tk/api',
+    baseURL: 'https://relier.tk/api',
    
 });
 
@@ -15,7 +15,7 @@ axios.interceptors.request.use(
     }
 );
 
-const images = 'http://relier.tk/api'
+const images = 'https://relier.tk/api'
 
 export default {
     get:instance.get,
