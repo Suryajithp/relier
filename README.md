@@ -33,9 +33,6 @@ Relier is a fully functional social media website with multiple features.
 
 ![Screenshot 2023-01-11 185422](https://user-images.githubusercontent.com/105493863/211828841-ae1ee111-f316-414d-a929-e85ade062bc7.jpg)
 
-![Screenshot 2023-01-11 195854](https://user-images.githubusercontent.com/105493863/211835203-aa2d7c17-c216-4a18-a674-aab29372e8e5.jpg)
-
-![Screenshot 2023-01-11 185500](https://user-images.githubusercontent.com/105493863/211829169-2cfbc376-9d7b-4fd5-b7b6-09034802172d.jpg)
 
 
 ## used
